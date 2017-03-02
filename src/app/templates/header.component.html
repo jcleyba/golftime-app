@@ -1,0 +1,5 @@
+<header>
+    <span *ngIf="isLoggedIn">
+        Hola {{user.name}}  <button (click)="logout()">Salir</button>
+    </span>
+</header>

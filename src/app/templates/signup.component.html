@@ -1,0 +1,28 @@
+<h3>Register</h3>
+<form [formGroup]="myForm" (ngSubmit)="onSignup()">
+    <div class="form-group">
+        <label for="email">E-Mail</label>
+        <input formControlName="email" type="email" id="email" class="form-control">
+    </div>
+    <div class="input-group">
+        <label for="password">Password</label>
+        <input formControlName="password" type="password" id="password" class="form-control">
+    </div>
+    <div class="input-group">
+        <label for="password">Nombre Completo</label>
+        <input formControlName="name" type="text" id="name" class="form-control">
+    </div>
+    <div class="input-group">
+        <label for="password">Teléfono</label>
+        <input formControlName="phone" type="text" id="phone" class="form-control">
+    </div>
+    <div class="input-group">
+        <label for="class">Tipo de socio</label>
+        <select formControlName="class" id="class" [(ngModel)]="selectedClass">
+            <option *ngFor="let class of classes" [value]="class.value">
+                {{class.display}}
+            </option>
+        </select>
+    </div>
+    <button type="submit" [disabled]="!myForm.valid" class="btn btn-primary">Sign In</button>
+</form>
