@@ -45,7 +45,6 @@ export class SignUpComponent {
         this.authService.signupUser(this.myForm.value).then((user: any) => {
             console.log(user);
             this.authService.registerUser(user.uid, this.myForm.value).then((user: any) => {
-                console.log(user);
                 this.showSpinner = false;
                 this.router.navigate(["torneos"])
             }).catch((error: any) => {

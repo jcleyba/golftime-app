@@ -1,4 +1,15 @@
-<header-app></header-app>
-<ul>
-    <li>Hola</li>
-</ul>
+<spinner *ngIf="showSpinner"></spinner>
+<header-app [user]="user"></header-app>
+<div class="container">
+    <form [formGroup]="myForm" (ngSubmit)="addEvent()">
+        <div class="form-group">
+            <label for="name">Nombre</label>
+            <input formControlName="name" type="text" id="name" class="form-control">
+        </div>
+        <div class="input-group">
+            <label for="date">Fecha</label>
+            <input formControlName="date" type="date" id="date" class="form-control">
+        </div>
+        <button type="submit" [disabled]="!myForm.valid" class="btn btn-primary">Sign In</button>
+    </form>
+</div>

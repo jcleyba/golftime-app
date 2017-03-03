@@ -1,4 +1,6 @@
-<header-app></header-app>
-<ul>
-    <li>Chau</li>
+<spinner *ngIf="showSpinner"></spinner>
+<header-app [user]="user"></header-app>
+<ul *ngFor="let event of eventsKeys">
+    <li><a [routerLink]="['/torneo', event]">{{events[event].name}}</a>
+    </li>
 </ul>

@@ -7,6 +7,7 @@ import {SignInComponent} from './components/signin.component';
 import {SignUpComponent} from './components/signup.component';
 import {AppComponent} from './components/app.component';
 import {EventsComponent} from './components/events.component';
+import {SingleEventComponent} from './components/single-event.component';
 import {CreateEventComponent} from './components/create-event.component';
 import {HeaderComponent} from './components/header.component';
 import {SpinnerComponent} from './components/spinner.component';
@@ -16,6 +17,7 @@ import {RouterModule} from '@angular/router';
 import {AppRoutingModule}from './app.routes'
 
 import {AuthService} from "./services/auth.service";
+import {EventsService} from "./services/events.service";
 
 
 @NgModule({
@@ -34,9 +36,10 @@ import {AuthService} from "./services/auth.service";
         EventsComponent,
         HeaderComponent,
         SpinnerComponent,
-        RestrictedAccessComponent
+        RestrictedAccessComponent,
+        SingleEventComponent
     ],
-    providers: [AuthService],
+    providers: [AuthService, EventsService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

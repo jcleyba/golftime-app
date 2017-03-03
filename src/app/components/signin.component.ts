@@ -14,8 +14,6 @@ import {RouterModule, Router} from '@angular/router';
 })
 export class SignInComponent {
     myForm: FormGroup;
-    error = false;
-    errorMessage = '';
     showSpinner: boolean = false;
 
     constructor(private fb: FormBuilder,
@@ -33,7 +31,6 @@ export class SignInComponent {
     onSignin() {
         this.showSpinner = true;
         this.authService.signinUser(this.myForm.value).then((user: any) => {
-            console.log(user);
             this.showSpinner = false;
             this.router.navigate(["torneos"]);
         }).catch((error: any) => {

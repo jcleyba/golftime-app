@@ -1,28 +1,34 @@
 /**
- * Created by juanleyba on 3/1/17.
+ * Created by juanleyba on 3/3/17.
  */
+
 import {Component, OnInit} from '@angular/core';
 import {AuthService, User} from "../services/auth.service";
 import {EventsService} from "../services/events.service";
-import {RouterModule, Router} from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 
 
 @Component({
     selector: 'events-app',
-    templateUrl: '../templates/events.component.html',
+    templateUrl: '../templates/single-event.component.html',
 })
-export class EventsComponent {
+export class SingleEventComponent {
+    id: string;
     user: User;
     showSpinner: boolean = false;
-    events: any;
-    eventsKeys: any;
+    event: any = new Object();
 
     constructor(private authService: AuthService,
                 private eventService: EventsService,
-                private router: Router) {
+                private router: Router,
+                private route: ActivatedRoute) {
         this.initWithUser = this.initWithUser.bind(this);
         this.initWithUser();
-        this.initWithEvents();
+
+        this.route.params.subscribe(params => {
+            this.id = params['id'];
+            this.initWithEvent(this.id);
+        });
     }
 
     initWithUser() {
@@ -41,12 +47,14 @@ export class EventsComponent {
         }
     }
 
-    initWithEvents() {
-        this.eventService.getEventsList().then((snapshot: any) => {
-            this.eventsKeys = Object.keys(snapshot.val());
-            this.events = snapshot.val();
+    initWithEvent(id: string) {
+        this.showSpinner = true;
+        this.eventService.getSingleEvent(id).then((snapshot: any) => {
+            this.event = snapshot.val();
+            this.showSpinner = false;
         }).catch((error: any) => {
-            console.log(error)
+            console.log(error);
+            this.showSpinner = false;
         })
     }
 }
