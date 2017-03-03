@@ -9,6 +9,8 @@ import {AppComponent} from './components/app.component';
 import {EventsComponent} from './components/events.component';
 import {CreateEventComponent} from './components/create-event.component';
 import {HeaderComponent} from './components/header.component';
+import {SpinnerComponent} from './components/spinner.component';
+import {RestrictedAccessComponent} from './components/restricted-access.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {AppRoutingModule}from './app.routes'
@@ -30,7 +32,9 @@ import {AuthService} from "./services/auth.service";
         SignUpComponent,
         CreateEventComponent,
         EventsComponent,
-        HeaderComponent
+        HeaderComponent,
+        SpinnerComponent,
+        RestrictedAccessComponent
     ],
     providers: [AuthService],
     bootstrap: [AppComponent]

@@ -42,7 +42,7 @@ export class AuthService {
     }
 
     logout() {
-        firebase.auth().signOut();
+        return firebase.auth().signOut();
     }
 
     getUser() {
@@ -51,7 +51,7 @@ export class AuthService {
             return firebase.database().ref("/users/" + user.uid).once('value');
         }
         else {
-            return firebase.database().ref("/users/" + user.uid).once('value');
+            return firebase.database().ref("/users/" + "null").once('value');
         }
     }
 

@@ -1,5 +1,9 @@
+<spinner *ngIf="showSpinner"></spinner>
 <header>
     <span *ngIf="isLoggedIn">
-        Hola {{user.name}}  <button (click)="logout()">Salir</button>
+        {{greeting}} {{user.name}}  <button (click)="logout()">Salir</button>
+    </span>
+    <span>
+        <a [routerLink]="['/crear-torneo']" *ngIf="isAdmin">Crear Torneo</a>
     </span>
 </header>

@@ -15,22 +15,44 @@ import {RouterModule, Router} from '@angular/router';
 })
 export class HeaderComponent {
     isLoggedIn: boolean = false;
+    greeting: string = "";
     user: any = {};
+    isAdmin: boolean = false;
+    showSpinner: boolean = false;
 
     constructor(private authService: AuthService,
                 private router: Router) {
+        this.showSpinner = true;
         if (this.authService.isAuthenticated()) {
-            this.isLoggedIn = true;
+            this.authService.getUser().then((snapshot: any) => {
+                if (snapshot) {
+                    if (snapshot.val().role === 1) {
+                        this.isAdmin = true;
+                    }
+                    else {
+                        this.isAdmin = false;
+                    }
+                    this.isLoggedIn = true;
+                    this.showSpinner = false;
+                }
+            });
+
             this.authService.getUser().then((snapshot: any) => {
                 this.user = snapshot.val();
+                this.greeting = "Bienvenido";
+                this.showSpinner = false;
             }).catch((error: any) => {
                 console.log(error);
-            })
+                this.showSpinner = false;
+            });
         }
     }
 
     logout() {
-        this.authService.logout();
-        this.router.navigate(['/login']);
+        this.authService.logout().then(() => {
+            this.router.navigate(["/login"]);
+        }).catch((error: any) => {
+            console.log(error);
+        });
     }
 }

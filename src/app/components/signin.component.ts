@@ -10,33 +10,36 @@ import {RouterModule, Router} from '@angular/router';
 
 @Component({
     selector: 'sign-in-app',
-    templateUrl: '../templates/signin.component.html',
-    styleUrls: ['../signin.component.css']
+    templateUrl: '../templates/signin.component.html'
 })
-export class SignInComponent implements OnInit {
+export class SignInComponent {
     myForm: FormGroup;
     error = false;
     errorMessage = '';
+    showSpinner: boolean = false;
 
     constructor(private fb: FormBuilder,
                 private authService: AuthService,
                 private router: Router) {
-    }
-
-    onSignin() {
-        this.authService.signinUser(this.myForm.value).then((user: any) => {
-            console.log(user);
-            this.router.navigate(["torneos"])
-        }).catch((error: any) => {
-            console.log(error);
-            alert(error.message);
-        })
-    }
-
-    ngOnInit(): any {
         this.myForm = this.fb.group({
             email: ['', Validators.required],
             password: ['', Validators.required],
         });
+        if (this.authService.isAuthenticated()) {
+            this.router.navigate(["torneos"]);
+        }
+    }
+
+    onSignin() {
+        this.showSpinner = true;
+        this.authService.signinUser(this.myForm.value).then((user: any) => {
+            console.log(user);
+            this.showSpinner = false;
+            this.router.navigate(["torneos"]);
+        }).catch((error: any) => {
+            console.log(error);
+            this.showSpinner = false;
+            alert(error.message);
+        })
     }
 }

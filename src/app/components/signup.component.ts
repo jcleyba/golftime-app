@@ -16,9 +16,10 @@ import {RouterModule, Router} from '@angular/router';
     selector: 'sign-up-app',
     templateUrl: '../templates/signup.component.html',
 })
-export class SignUpComponent implements OnInit {
+export class SignUpComponent {
     myForm: FormGroup;
     selectedClass = 0;
+    showSpinner: boolean = false;
     classes = [
         {value: 0, display: 'A'},
         {value: 1, display: 'B'},
@@ -29,26 +30,6 @@ export class SignUpComponent implements OnInit {
     constructor(private fb: FormBuilder,
                 private authService: AuthService,
                 private router: Router) {
-    }
-
-
-    onSignup() {
-        this.authService.signupUser(this.myForm.value).then((user: any) => {
-            console.log(user);
-            this.authService.registerUser(user.uid, this.myForm.value).then((user: any) => {
-                console.log(user);
-                this.router.navigate(["torneos"])
-            }).catch((error: any) => {
-                console.log(error);
-                alert(error.message)
-            })
-        }).catch((error: any) => {
-            console.log(error);
-            alert(error.message);
-        })
-    }
-
-    ngOnInit(): any {
         this.myForm = this.fb.group({
             email: ['', Validators.required],
             name: ['', Validators.required],
@@ -56,5 +37,26 @@ export class SignUpComponent implements OnInit {
             class: [''],
             password: ['', Validators.required],
         });
+    }
+
+
+    onSignup() {
+        this.showSpinner = true;
+        this.authService.signupUser(this.myForm.value).then((user: any) => {
+            console.log(user);
+            this.authService.registerUser(user.uid, this.myForm.value).then((user: any) => {
+                console.log(user);
+                this.showSpinner = false;
+                this.router.navigate(["torneos"])
+            }).catch((error: any) => {
+                console.log(error);
+                this.showSpinner = false;
+                alert(error.message)
+            })
+        }).catch((error: any) => {
+            this.showSpinner = false;
+            console.log(error);
+            alert(error.message);
+        })
     }
 }
