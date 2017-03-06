@@ -2,4 +2,19 @@
 <header-app [user]="user"></header-app>
 <div class="container">
     {{event.name}}
+    <table border="1">
+        <thead>
+        <th>Horario</th>
+        <th *ngFor="let index of heading;">
+            Jugador {{index}}
+        </th>
+        </thead>
+        <tbody>
+        <tr *ngFor="let event of rows; let i = index">
+            <td *ngFor="let content of event; let j = index">
+                {{content}}
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
