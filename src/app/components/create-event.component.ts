@@ -96,8 +96,7 @@ export class CreateEventComponent {
             afternoonShiftStart: this.formatTime(date, value.afternoonShiftStartHours, value.afternoonShiftStartMinutes),
             afternoonShiftEnd: this.formatTime(date, value.afternoonShiftEndHours, value.afternoonShiftEndMinutes),
             shifts: this.addTee ? 2 : 1
-        }
-        console.log(event);
+        };
         this.eventService.createEvent(event).then((response: any) => {
             this.showSpinner = false;
             console.log(response);

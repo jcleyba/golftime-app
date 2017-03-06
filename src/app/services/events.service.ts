@@ -22,4 +22,11 @@ export class EventsService {
     getSingleEvent(id: any) {
         return firebase.database().ref("/events/" + id).once('value');
     }
+
+    saveBooking(eventId: any, user: any, time: any) {
+        return firebase.database().ref("/events/" + eventId + "/bookings").push().set({
+            time: time,
+            user: user
+        });
+    }
 }

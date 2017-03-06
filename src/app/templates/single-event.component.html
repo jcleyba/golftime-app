@@ -11,8 +11,10 @@
         </thead>
         <tbody>
         <tr *ngFor="let event of rows; let i = index">
-            <td *ngFor="let content of event; let j = index">
-                {{content}}
+            <td>{{event.time | date:'HH:mm'}}</td>
+            <td id={{event.time}} *ngFor="let content of event.content; let j = index"
+                (click)="addBooking($event)">
+                {{content.name}}
             </td>
         </tr>
         </tbody>

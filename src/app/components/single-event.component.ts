@@ -6,6 +6,7 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService, User} from "../services/auth.service";
 import {EventsService} from "../services/events.service";
 import {Router, ActivatedRoute} from '@angular/router';
+import {start} from "repl";
 
 
 @Component({
@@ -53,7 +54,6 @@ export class SingleEventComponent {
         this.showSpinner = true;
         this.eventService.getSingleEvent(id).then((snapshot: any) => {
             this.event = snapshot.val();
-            console.log(this.event);
             this.drawTable(this.event);
             this.showSpinner = false;
         }).catch((error: any) => {
@@ -70,24 +70,50 @@ export class SingleEventComponent {
         if (event.afternoonShiftStart > 0) {
             this.drawShift(event, event.afternoonShiftStart, event.afternoonShiftEnd);
         }
-
-        console.log(this.heading)
     }
 
     drawShift(event: any, startTime: any, endTime: any) {
         while (startTime < endTime) {
             var array: any = [];
             var date = new Date(startTime);
-            array[0] = date.getHours() + ":" + this.formatMinutes(date.getMinutes().toString());
             for (var i = 1; i < parseInt(event.numberOfPlayers) + 1; i++) {
-                array[i] = "";
+                array = this.findBooking(startTime);
             }
-            this.rows.push(array);
+            var obj = {
+                time: new Date(startTime),
+                content: array
+            };
+            this.rows.push(obj);
             startTime += (event.teeTimesInterval * 60000);
         }
+        console.log(this.rows);
     }
 
-    formatMinutes(minutes: string) {
-        return minutes.length == 1 ? '0' + minutes : minutes;
+    findBooking(time: any) {
+        var arr: any = [];
+        var keys = Object.keys(this.event.bookings);
+        for (var i = 0; i < keys.length; i++) {
+            var id = keys[i];
+            var obj: any = new Object();
+
+            if (parseInt(this.event.bookings[id].time) === time) {
+                obj.id = id;
+                obj.name = this.event.bookings[id].user.name;
+            }
+            else {
+                obj.name = "";
+            }
+            arr.push(obj);
+        }
+        return arr;
+    }
+
+    addBooking(e: any) {
+        console.log(e.target.name);
+        this.eventService.saveBooking(this.id, this.user, e.target.id).then((response: any) => {
+            console.log(response);
+        }).catch((error: any) => {
+            console.log(error)
+        })
     }
 }
