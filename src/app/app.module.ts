@@ -2,6 +2,7 @@
  * Created by juanleyba on 3/1/17.
  */
 import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {BrowserModule}  from '@angular/platform-browser';
 import {SignInComponent} from './components/signin.component';
 import {SignUpComponent} from './components/signup.component';
@@ -23,6 +24,7 @@ import {EventsService} from "./services/events.service";
 @NgModule({
     imports: [
         BrowserModule,
+        CommonModule,
         FormsModule,
         ReactiveFormsModule,
         RouterModule,

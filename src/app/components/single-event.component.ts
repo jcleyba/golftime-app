@@ -15,11 +15,13 @@ import {start} from "repl";
 })
 export class SingleEventComponent {
     id: string;
+    userId: string;
     user: User;
     showSpinner: boolean = false;
     event: any = new Object();
     heading: any = [];
     rows: any = [];
+    alreadyBooked: boolean = false;
 
     constructor(private authService: AuthService,
                 private eventService: EventsService,
@@ -39,6 +41,8 @@ export class SingleEventComponent {
             this.showSpinner = true;
             this.authService.getUser().then((snapshot: any) => {
                 this.user = snapshot.val();
+                this.user.id = snapshot.key;
+                console.log(this.userId);
                 this.showSpinner = false;
             }).catch((error: any) => {
                 console.log(error);
@@ -78,7 +82,7 @@ export class SingleEventComponent {
             for (var i = 1; i < parseInt(event.numberOfPlayers) + 1; i++) {
                 array = this.findBooking(startTime);
                 for (var j = array.length; j < i; j++) {
-                    array[j] = {name: ""};
+                    array[j] = {id: null, time: startTime, user: {name: ""}};
                 }
             }
             var obj = {
@@ -92,31 +96,31 @@ export class SingleEventComponent {
 
     findBooking(time: any) {
         var arr: any = [];
-        var keys = Object.keys(this.event.bookings);
+        var keys = this.event.bookings ? Object.keys(this.event.bookings) : [];
         for (var i = 0; i < keys.length; i++) {
             var id = keys[i];
             var obj: any = new Object();
             if (parseInt(this.event.bookings[id].time) === time) {
                 obj.id = id;
-                obj.name = this.event.bookings[id].user.name;
+                obj.user = this.event.bookings[id].user;
+                obj.time = time;
+                this.alreadyBooked = obj.user.id === this.user.id;
                 arr.push(obj);
             }
+
 
         }
         return arr;
     }
 
     addBooking(e: any) {
-        var disabled = e.target.dataset.content;
-        console.log(e.target.dataset);
-        var time = new Date(e.target.dataset.time).getTime();
-        if (!disabled) {
-            this.eventService.saveBooking(this.id, this.user, time).then((response: any) => {
+        if (!e.id && !this.alreadyBooked) {
+            console.log(e);
+            this.eventService.saveBooking(this.id, this.user, e.time).then((response: any) => {
                 console.log(response);
             }).catch((error: any) => {
                 console.log(error)
             })
         }
-
     }
 }
