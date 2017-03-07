@@ -12,6 +12,7 @@ import {SingleEventComponent} from './components/single-event.component';
 import {CreateEventComponent} from './components/create-event.component';
 import {HeaderComponent} from './components/header.component';
 import {SpinnerComponent} from './components/spinner.component';
+import {ToastComponent} from './components/toast.component';
 import {RestrictedAccessComponent} from './components/restricted-access.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
@@ -39,7 +40,8 @@ import {EventsService} from "./services/events.service";
         HeaderComponent,
         SpinnerComponent,
         RestrictedAccessComponent,
-        SingleEventComponent
+        SingleEventComponent,
+        ToastComponent
     ],
     providers: [AuthService, EventsService],
     bootstrap: [AppComponent]

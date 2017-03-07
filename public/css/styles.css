@@ -1,5 +1,20 @@
 body {
+    margin: 0;
+}
 
+#toast.error {
+    background: darkred;
+    color: white;
+}
+
+#toast.warning {
+    background: yellow;
+    color: white;
+}
+
+#toast.alert {
+    background: yellowgreen;
+    color: white;
 }
 
 .spinner-overlay {

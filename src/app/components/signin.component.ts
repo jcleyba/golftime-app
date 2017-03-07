@@ -15,6 +15,9 @@ import {RouterModule, Router} from '@angular/router';
 export class SignInComponent {
     myForm: FormGroup;
     showSpinner: boolean = false;
+    showToast: boolean = false;
+    toastMessage: string;
+    toastType: string;
 
     constructor(private fb: FormBuilder,
                 private authService: AuthService,
@@ -36,7 +39,9 @@ export class SignInComponent {
         }).catch((error: any) => {
             console.log(error);
             this.showSpinner = false;
-            alert(error.message);
+            this.showToast = true;
+            this.toastMessage = "Revise su usuario y contraseña";
+            this.toastType = "error";
         })
     }
 }

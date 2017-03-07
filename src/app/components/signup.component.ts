@@ -20,6 +20,9 @@ export class SignUpComponent {
     myForm: FormGroup;
     selectedClass = 0;
     showSpinner: boolean = false;
+    showToast: boolean = false;
+    toastMessage: string;
+    toastType: string;
     classes = [
         {value: 0, display: 'A'},
         {value: 1, display: 'B'},
