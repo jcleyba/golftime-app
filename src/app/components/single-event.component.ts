@@ -120,15 +120,17 @@ export class SingleEventComponent implements OnInit {
     addBooking(e: any) {
         var timeString = new Date(e.time);
         var formatMinute = timeString.getMinutes().toString().length == 1 ? '0' + timeString.getMinutes() : timeString.getMinutes();
-        var confirm: any = window.confirm('¿Usted desea inscribirse a las ' + timeString.getHours() + ":" + formatMinute);
 
-        if (!e.id && !this.alreadyBooked && confirm) {
-            this.eventService.saveBooking(this.id, this.user, e.time).then((response: any) => {
-                this.initWithEvent(this.id);
-            }).catch((error: any) => {
-                this.showSpinner = false;
-                console.log(error)
-            })
+        if (!e.id && !this.alreadyBooked) {
+            var confirm: any = window.confirm('¿Usted desea inscribirse a las ' + timeString.getHours() + ":" + formatMinute);
+            if (confirm) {
+                this.eventService.saveBooking(this.id, this.user, e.time).then((response: any) => {
+                    this.initWithEvent(this.id);
+                }).catch((error: any) => {
+                    this.showSpinner = false;
+                    console.log(error)
+                })
+            }
         }
         else if (!e.id && this.alreadyBooked) {
             alert('Usted ya está inscripto.');
