@@ -75,9 +75,11 @@ export class SingleEventComponent {
     drawShift(event: any, startTime: any, endTime: any) {
         while (startTime < endTime) {
             var array: any = [];
-            var date = new Date(startTime);
             for (var i = 1; i < parseInt(event.numberOfPlayers) + 1; i++) {
                 array = this.findBooking(startTime);
+                for (var j = array.length; j < i; j++) {
+                    array[j] = {name: ""};
+                }
             }
             var obj = {
                 time: new Date(startTime),
@@ -86,7 +88,6 @@ export class SingleEventComponent {
             this.rows.push(obj);
             startTime += (event.teeTimesInterval * 60000);
         }
-        console.log(this.rows);
     }
 
     findBooking(time: any) {
@@ -95,25 +96,27 @@ export class SingleEventComponent {
         for (var i = 0; i < keys.length; i++) {
             var id = keys[i];
             var obj: any = new Object();
-
             if (parseInt(this.event.bookings[id].time) === time) {
                 obj.id = id;
                 obj.name = this.event.bookings[id].user.name;
+                arr.push(obj);
             }
-            else {
-                obj.name = "";
-            }
-            arr.push(obj);
+
         }
         return arr;
     }
 
     addBooking(e: any) {
-        console.log(e.target.name);
-        this.eventService.saveBooking(this.id, this.user, e.target.id).then((response: any) => {
-            console.log(response);
-        }).catch((error: any) => {
-            console.log(error)
-        })
+        var disabled = e.target.dataset.content;
+        console.log(e.target.dataset);
+        var time = new Date(e.target.dataset.time).getTime();
+        if (!disabled) {
+            this.eventService.saveBooking(this.id, this.user, time).then((response: any) => {
+                console.log(response);
+            }).catch((error: any) => {
+                console.log(error)
+            })
+        }
+
     }
 }
