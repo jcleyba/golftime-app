@@ -30,7 +30,6 @@ export class AuthService {
     }
 
     registerUser(id: string, user: User) {
-        console.log(user);
         var users = firebase.database().ref("/users/" + id);
         return users.set({
             email: user.email,

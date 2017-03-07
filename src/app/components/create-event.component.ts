@@ -1,7 +1,7 @@
 /**
  * Created by juanleyba on 3/1/17.
  */
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthService, User} from '../services/auth.service';
 import {EventsService} from '../services/events.service';
@@ -11,7 +11,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
     selector: 'create-tournaments-app',
     templateUrl: '../templates/create-event.component.html',
 })
-export class CreateEventComponent {
+export class CreateEventComponent implements OnInit {
     myForm: FormGroup;
     user: User;
     numberOfPlayers: Array<Number> = [2, 3, 4];
@@ -27,7 +27,6 @@ export class CreateEventComponent {
                 private router: Router,
                 private fb: FormBuilder) {
         this.initWithUser = this.initWithUser.bind(this);
-        this.initWithUser();
         this.initDropdowns();
 
         this.myForm = this.fb.group({
@@ -46,6 +45,10 @@ export class CreateEventComponent {
             showAfternoonInput: [''],
             addTee: [''],
         });
+    }
+
+    ngOnInit() {
+        this.initWithUser();
     }
 
     initWithUser() {
@@ -97,10 +100,10 @@ export class CreateEventComponent {
             afternoonShiftEnd: this.formatTime(date, value.afternoonShiftEndHours, value.afternoonShiftEndMinutes),
             shifts: this.addTee ? 2 : 1
         };
-        this.eventService.createEvent(event).then((response: any) => {
+        var key = this.eventService.generateNewKeyForEvent();
+        this.eventService.createEvent(key, event).then((response: any) => {
             this.showSpinner = false;
-            console.log(response);
-            alert("Torneo creado!");
+            this.router.navigate(['/torneo', key])
         }).catch((error: any) => {
             this.showSpinner = false;
             console.log(error);

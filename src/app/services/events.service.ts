@@ -11,8 +11,16 @@ export class EventsService {
     constructor() {
     }
 
-    createEvent(event: any) {
-        return firebase.database().ref("/events").push().set(event);
+    generateNewKeyForEvent() {
+        return firebase.database().ref("/events").push().key;
+    }
+
+    createEvent(key: any, event: any) {
+        return firebase.database().ref("/events/" + key).set(event);
+    }
+
+    listenEvents() {
+        return firebase.database().ref("/events");
     }
 
     getEventsList() {
@@ -28,5 +36,9 @@ export class EventsService {
             time: time,
             user: user
         });
+    }
+
+    deleteBooking(eventId: any, bookingId: any) {
+        return firebase.database().ref("/events/" + eventId + "/bookings/" + bookingId).remove();
     }
 }

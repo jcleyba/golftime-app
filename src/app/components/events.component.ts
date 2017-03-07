@@ -11,7 +11,7 @@ import {RouterModule, Router} from '@angular/router';
     selector: 'events-app',
     templateUrl: '../templates/events.component.html',
 })
-export class EventsComponent {
+export class EventsComponent implements OnInit {
     user: User;
     showSpinner: boolean = false;
     events: any;
@@ -21,6 +21,9 @@ export class EventsComponent {
                 private eventService: EventsService,
                 private router: Router) {
         this.initWithUser = this.initWithUser.bind(this);
+    }
+
+    ngOnInit() {
         this.initWithUser();
         this.initWithEvents();
     }

@@ -13,13 +13,13 @@ import {start} from "repl";
     selector: 'events-app',
     templateUrl: '../templates/single-event.component.html',
 })
-export class SingleEventComponent {
+export class SingleEventComponent implements OnInit {
     id: string;
     userId: string;
     user: User;
     showSpinner: boolean = false;
     event: any = new Object();
-    heading: any = [];
+    heading: any;
     rows: any = [];
     alreadyBooked: boolean = false;
 
@@ -28,12 +28,16 @@ export class SingleEventComponent {
                 private router: Router,
                 private route: ActivatedRoute) {
         this.initWithUser = this.initWithUser.bind(this);
-        this.initWithUser();
+        this.initWithEvent = this.initWithEvent.bind(this);
 
         this.route.params.subscribe(params => {
             this.id = params['id'];
-            this.initWithEvent(this.id);
         });
+    }
+
+    ngOnInit() {
+        this.initWithUser();
+        this.initWithEvent(this.id);
     }
 
     initWithUser() {
@@ -42,7 +46,6 @@ export class SingleEventComponent {
             this.authService.getUser().then((snapshot: any) => {
                 this.user = snapshot.val();
                 this.user.id = snapshot.key;
-                console.log(this.userId);
                 this.showSpinner = false;
             }).catch((error: any) => {
                 console.log(error);
@@ -55,21 +58,24 @@ export class SingleEventComponent {
     }
 
     initWithEvent(id: string) {
+        var self = this;
         this.showSpinner = true;
         this.eventService.getSingleEvent(id).then((snapshot: any) => {
-            this.event = snapshot.val();
-            this.drawTable(this.event);
-            this.showSpinner = false;
+            self.event = snapshot.val();
+            self.drawTable(self.event);
+            self.showSpinner = false;
         }).catch((error: any) => {
             console.log(error);
-            this.showSpinner = false;
+            self.showSpinner = false;
         })
     }
 
     drawTable(event: any) {
+        this.heading = [];
         for (var i = 1; i < parseInt(event.numberOfPlayers) + 1; i++) {
             this.heading.push(i);
         }
+        this.rows = [];
         this.drawShift(event, event.morningShiftStart, event.morningShiftEnd);
         if (event.afternoonShiftStart > 0) {
             this.drawShift(event, event.afternoonShiftStart, event.afternoonShiftEnd);
@@ -80,7 +86,7 @@ export class SingleEventComponent {
         while (startTime < endTime) {
             var array: any = [];
             for (var i = 1; i < parseInt(event.numberOfPlayers) + 1; i++) {
-                array = this.findBooking(startTime);
+                array = this.findBooking(event.bookings, startTime);
                 for (var j = array.length; j < i; j++) {
                     array[j] = {id: null, time: startTime, user: {name: ""}};
                 }
@@ -94,9 +100,9 @@ export class SingleEventComponent {
         }
     }
 
-    findBooking(time: any) {
+    findBooking(list: any, time: any) {
         var arr: any = [];
-        var keys = this.event.bookings ? Object.keys(this.event.bookings) : [];
+        var keys = list ? Object.keys(list) : [];
         for (var i = 0; i < keys.length; i++) {
             var id = keys[i];
             var obj: any = new Object();
@@ -107,19 +113,38 @@ export class SingleEventComponent {
                 this.alreadyBooked = obj.user.id === this.user.id;
                 arr.push(obj);
             }
-
-
         }
         return arr;
     }
 
     addBooking(e: any) {
-        if (!e.id && !this.alreadyBooked) {
-            console.log(e);
+        var timeString = new Date(e.time);
+        var formatMinute = timeString.getMinutes().toString().length == 1 ? '0' + timeString.getMinutes() : timeString.getMinutes();
+        var confirm: any = window.confirm('¿Usted desea inscribirse a las ' + timeString.getHours() + ":" + formatMinute);
+
+        if (!e.id && !this.alreadyBooked && confirm) {
             this.eventService.saveBooking(this.id, this.user, e.time).then((response: any) => {
-                console.log(response);
+                this.initWithEvent(this.id);
             }).catch((error: any) => {
+                this.showSpinner = false;
                 console.log(error)
+            })
+        }
+        else if (!e.id && this.alreadyBooked) {
+            alert('Usted ya está inscripto.');
+        }
+
+    }
+
+    removeBooking(id: any) {
+        event.stopPropagation();
+        if (window.confirm('¿Está seguro de eliminar su inscripción?')) {
+            this.eventService.deleteBooking(this.id, id).then((response: any) => {
+                this.initWithEvent(this.id);
+                this.alreadyBooked = false;
+            }).catch((error: any) => {
+                this.showSpinner = false;
+                console.log(error);
             })
         }
     }

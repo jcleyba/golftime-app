@@ -43,10 +43,9 @@ export class SignUpComponent {
     onSignup() {
         this.showSpinner = true;
         this.authService.signupUser(this.myForm.value).then((user: any) => {
-            console.log(user);
-            this.authService.registerUser(user.uid, this.myForm.value).then((user: any) => {
+            this.authService.registerUser(user.uid, this.myForm.value).then((snapshot: any) => {
                 this.showSpinner = false;
-                this.router.navigate(["torneos"])
+                this.router.navigate(["torneos"]);
             }).catch((error: any) => {
                 console.log(error);
                 this.showSpinner = false;
