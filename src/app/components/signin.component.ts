@@ -5,6 +5,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../services/auth.service";
+import {ToastService} from "../services/toast.service";
 import {RouterModule, Router} from '@angular/router';
 
 
@@ -15,13 +16,12 @@ import {RouterModule, Router} from '@angular/router';
 export class SignInComponent {
     myForm: FormGroup;
     showSpinner: boolean = false;
-    showToast: boolean = false;
     toastMessage: string;
-    toastType: string;
 
     constructor(private fb: FormBuilder,
                 private authService: AuthService,
-                private router: Router) {
+                private router: Router,
+                private toast: ToastService) {
         this.myForm = this.fb.group({
             email: ['', Validators.required],
             password: ['', Validators.required],
@@ -38,10 +38,12 @@ export class SignInComponent {
             this.router.navigate(["torneos"]);
         }).catch((error: any) => {
             console.log(error);
+            this.toast.create({
+                show: true,
+                message: "Verifique su usuario y contraseña",
+                severity: 'error'
+            });
             this.showSpinner = false;
-            this.showToast = true;
-            this.toastMessage = "Revise su usuario y contraseña";
-            this.toastType = "error";
         })
     }
 }

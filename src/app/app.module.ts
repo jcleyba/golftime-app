@@ -20,6 +20,7 @@ import {AppRoutingModule}from './app.routes'
 
 import {AuthService} from "./services/auth.service";
 import {EventsService} from "./services/events.service";
+import {ToastService} from "./services/toast.service";
 
 
 @NgModule({
@@ -43,7 +44,7 @@ import {EventsService} from "./services/events.service";
         SingleEventComponent,
         ToastComponent
     ],
-    providers: [AuthService, EventsService],
+    providers: [AuthService, EventsService, ToastService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

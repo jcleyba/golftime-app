@@ -2,16 +2,33 @@
  * Created by juanleyba on 3/7/17.
  */
 import {Component, OnInit, Input} from '@angular/core';
+import {ToastService} from '../services/toast.service'
 
+interface Options {
+    show: boolean;
+    message: string;
+    severity: string;
+}
 
 @Component({
     selector: 'toast',
     templateUrl: '../templates/toast.component.html',
 })
 export class ToastComponent {
-    @Input() message: string;
-    @Input() type: string;
+    message: string;
+    classes: any = [];
 
-    constructor() {
+    constructor(private toastService: ToastService) {
+        this.toastService.showToast.subscribe((options: Options) => {
+            this.message = options.message;
+            if (options.show) {
+                setTimeout(() => {
+                    this.classes = 'hide';
+                }, 3000)
+            }
+            this.classes = [];
+            this.classes.push(options.show.toString() ? 'show' : '');
+            this.classes.push(options.severity.toString());
+        })
     }
 }

@@ -5,8 +5,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService, User} from "../services/auth.service";
 import {EventsService} from "../services/events.service";
+import {ToastService} from "../services/toast.service";
 import {Router, ActivatedRoute} from '@angular/router';
-import {start} from "repl";
 
 
 @Component({
@@ -15,7 +15,6 @@ import {start} from "repl";
 })
 export class SingleEventComponent implements OnInit {
     id: string;
-    userId: string;
     user: User;
     showSpinner: boolean = false;
     event: any = new Object();
@@ -25,6 +24,7 @@ export class SingleEventComponent implements OnInit {
 
     constructor(private authService: AuthService,
                 private eventService: EventsService,
+                private toast: ToastService,
                 private router: Router,
                 private route: ActivatedRoute) {
         this.initWithUser = this.initWithUser.bind(this);
@@ -126,6 +126,13 @@ export class SingleEventComponent implements OnInit {
             if (confirm) {
                 this.eventService.saveBooking(this.id, this.user, e.time).then((response: any) => {
                     this.initWithEvent(this.id);
+                    setTimeout(() => {
+                        this.toast.create({
+                            show: true,
+                            message: 'Inscripción exitosa',
+                            severity: 'alert'
+                        });
+                    }, 1000);
                 }).catch((error: any) => {
                     this.showSpinner = false;
                     console.log(error)
@@ -133,7 +140,6 @@ export class SingleEventComponent implements OnInit {
             }
         }
         else if (!e.id && this.alreadyBooked) {
-            alert('Usted ya está inscripto.');
         }
 
     }

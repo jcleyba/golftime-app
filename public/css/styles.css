@@ -2,6 +2,68 @@ body {
     margin: 0;
 }
 
+#toast {
+    visibility: hidden;
+    color: #fff;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 0px;
+    height: 30px;
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+#toast.show {
+    visibility: visible; /* Show the snackbar */
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+    from {
+        height: 0;
+        opacity: 0;
+    }
+    to {
+        height: 30px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadein {
+    from {
+        height: 0;
+        opacity: 0;
+    }
+    to {
+        height: 30px;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeout {
+    from {
+        height: 30px;
+        opacity: 1;
+    }
+    to {
+        height: 0;
+        opacity: 0;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        height: 30px;
+        opacity: 1;
+    }
+    to {
+        height: 0;
+        opacity: 0;
+    }
+}
+
 #toast.error {
     background: darkred;
     color: white;
