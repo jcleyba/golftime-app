@@ -12,6 +12,7 @@ export interface User {
     email: string;
     password: string;
     confirmPassword?: string;
+    role: Number;
 }
 declare var firebase: any;
 

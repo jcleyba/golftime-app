@@ -41,4 +41,8 @@ export class EventsService {
     deleteBooking(eventId: any, bookingId: any) {
         return firebase.database().ref("/events/" + eventId + "/bookings/" + bookingId).remove();
     }
+
+    getUsers() {
+        return firebase.database().ref("/users").once('value');
+    }
 }
