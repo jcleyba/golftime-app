@@ -82,7 +82,7 @@ export class SingleEventComponent implements OnInit {
         this.eventService.getUsers().then((snapshot: any) => {
             self.usersList = snapshot.val();
             self.usersIds = Object.keys(self.usersList);
-            self.selectedUser = self.usersList[0];
+            self.selectedUser = self.usersList[self.usersIds[0]];
             this.showUsersSelect = true;
         }).catch((error: any) => {
             console.log(error);
