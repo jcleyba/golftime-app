@@ -32,6 +32,9 @@ export class SingleEventComponent implements OnInit {
                 private route: ActivatedRoute) {
         this.initWithUser = this.initWithUser.bind(this);
         this.initWithEvent = this.initWithEvent.bind(this);
+        this.addBooking = this.addBooking.bind(this);
+        this.sendBooking = this.sendBooking.bind(this);
+        this.removeBooking = this.removeBooking.bind(this);
 
         this.route.params.subscribe(params => {
             this.id = params['id'];

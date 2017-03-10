@@ -17,12 +17,10 @@ export class ToastService {
     }
 
     create(newValue: any) {
-        this.showToast = newValue;
         this.boolSubject.next(newValue);
     }
 
     hide(newValue: any) {
-        this.showToast = newValue;
         this.boolSubject.next(newValue);
     }
 }

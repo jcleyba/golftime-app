@@ -19,16 +19,18 @@ export class EventsService {
         return firebase.database().ref("/events/" + key).set(event);
     }
 
-    listenEvents() {
-        return firebase.database().ref("/events");
-    }
 
     getEventsList() {
-        return firebase.database().ref("/events").once('value');
+        var today = new Date().getTime();
+        return firebase.database().ref("/events").orderByChild('date').startAt(today).once('value');
     }
 
     getSingleEvent(id: any) {
         return firebase.database().ref("/events/" + id).once('value');
+    }
+
+    deleteEvent(eventId: any) {
+        return firebase.database().ref("/events/" + eventId).remove();
     }
 
     saveBooking(eventId: any, user: any, time: any) {

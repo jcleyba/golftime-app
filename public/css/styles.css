@@ -71,7 +71,7 @@ body {
 
 #toast.warning {
     background: yellow;
-    color: white;
+    color: black;
 }
 
 #toast.alert {

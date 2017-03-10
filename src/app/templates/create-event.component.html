@@ -4,15 +4,15 @@
     <form [formGroup]="myForm" (ngSubmit)="addEvent()">
         <div class="form-group">
             <label for="name">Nombre</label>
-            <input formControlName="name" type="text" id="name" class="form-control">
+            <input formControlName="name" type="text" id="name" class="form-control" [(ngModel)]="event.name">
         </div>
         <div class="input-group">
             <label for="date">Fecha</label>
-            <input formControlName="date" type="date" id="date" class="form-control">
+            <input formControlName="date" type="date" id="date" class="form-control" [(ngModel)]="event.date">
         </div>
         <div class="input-group">
             <label for="numberOfPlayers">Jugadores por linea</label>
-            <select formControlName="numberOfPlayers" id="numberOfPlayers">
+            <select formControlName="numberOfPlayers" id="numberOfPlayers" [(ngModel)]="event.numberOfPlayers">
                 <option *ngFor="let number of numberOfPlayers" [value]="number">
                     {{number}}
                 </option>
@@ -20,7 +20,7 @@
         </div>
         <div class="input-group">
             <label for="teeTimesIntervals">Intervalo entre horarios de salida</label>
-            <select formControlName="teeTimesIntervals" id="teeTimesIntervals">
+            <select formControlName="teeTimesIntervals" id="teeTimesIntervals" [(ngModel)]="event.teeTimesInterval">
                 <option *ngFor="let interval of teeTimesIntervals" [value]="interval">
                     {{interval}}
                 </option>
@@ -30,13 +30,15 @@
         <h3>Turno mañana</h3>
         <div class="input-group">
             <label for="morningShiftStartHours">Hora inicio</label>
-            <select formControlName="morningShiftStartHours" id="morningShiftStartHours">
+            <select formControlName="morningShiftStartHours" id="morningShiftStartHours"
+                    [(ngModel)]="event.morningShiftStartHours">
                 <option *ngFor="let hour of hours" [value]="hour">
                     {{hour}}
                 </option>
             </select>
             :
-            <select formControlName="morningShiftStartMinutes" id="morningShiftStartMinutes">
+            <select formControlName="morningShiftStartMinutes" id="morningShiftStartMinutes"
+                    [(ngModel)]="event.morningShiftStartMinutes">
                 <option *ngFor="let minute of minutes" [value]="minute">
                     {{minute}}
                 </option>
@@ -44,13 +46,15 @@
         </div>
         <div class="input-group">
             <label for="morningShiftEndHours">Hora cierre</label>
-            <select formControlName="morningShiftEndHours" id="morningShiftEndHours">
+            <select formControlName="morningShiftEndHours" id="morningShiftEndHours"
+                    [(ngModel)]="event.morningShiftEndHours">
                 <option *ngFor="let hour of hours" [value]="hour">
                     {{hour}}
                 </option>
             </select>
             :
-            <select formControlName="morningShiftEndMinutes" id="morningShiftEndMinutes">
+            <select formControlName="morningShiftEndMinutes" id="morningShiftEndMinutes"
+                    [(ngModel)]="event.morningShiftEndMinutes">
                 <option *ngFor="let minute of minutes" [value]="minute">
                     {{minute}}
                 </option>
@@ -63,13 +67,15 @@
         <div class="input-group" *ngIf="showAfternoon">
             <h3>Turno tarde</h3>
             <label for="afternoonShiftStartHours">Hora inicio:</label>
-            <select formControlName="afternoonShiftStartHours" id="afternoonShiftStartHours">
+            <select formControlName="afternoonShiftStartHours" id="afternoonShiftStartHours"
+                    [(ngModel)]="event.afternoonShiftStartHours">
                 <option *ngFor="let hour of hours" [value]="hour">
                     {{hour}}
                 </option>
             </select>
             :
-            <select formControlName="afternoonShiftStartMinutes" id="afternoonShiftStartMinutes">
+            <select formControlName="afternoonShiftStartMinutes" id="afternoonShiftStartMinutes"
+                    [(ngModel)]="event.afternoonShiftStartMinutes">
                 <option *ngFor="let minute of minutes" [value]="minute">
                     {{minute}}
                 </option>
@@ -77,22 +83,24 @@
         </div>
         <div class="input-group" *ngIf="showAfternoon">
             <label for="afternoonShiftEndHours">Hora cierre:</label>
-            <select formControlName="afternoonShiftEndHours" id="afternoonShiftEndHours">
+            <select formControlName="afternoonShiftEndHours" id="afternoonShiftEndHours"
+                    [(ngModel)]="event.afternoonShiftEndHours">
                 <option *ngFor="let hour of hours" [value]="hour">
                     {{hour}}
                 </option>
             </select>
             :
-            <select formControlName="afternoonShiftEndMinutes" id="afternoonShiftEndMinutes">
+            <select formControlName="afternoonShiftEndMinutes" id="afternoonShiftEndMinutes"
+                    [(ngModel)]="event.afternoonShiftEndMinutes">
                 <option *ngFor="let minute of minutes" [value]="minute">
                     {{minute}}
                 </option>
             </select>
         </div>
         <div>
-            <input formControlName="addTee" type="checkbox" [(ngModel)]="addTee"
+            <input formControlName="addTee" type="checkbox" *ngIf="addTee" [(ngModel)]="addTee"
                    value="addTee"> Repetir horarios para salidas desde el hoyo 10
         </div>
-        <button type="submit" [disabled]="!myForm.valid" class="btn btn-primary">Sign In</button>
+        <button type="submit" [disabled]="!myForm.valid" class="btn btn-primary">Guardar</button>
     </form>
 </div>

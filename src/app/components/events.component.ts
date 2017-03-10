@@ -4,7 +4,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService, User} from "../services/auth.service";
 import {EventsService} from "../services/events.service";
-import {RouterModule, Router} from '@angular/router';
+import {ToastService} from "../services/toast.service";
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -19,8 +20,11 @@ export class EventsComponent implements OnInit {
 
     constructor(private authService: AuthService,
                 private eventService: EventsService,
+                private toast: ToastService,
                 private router: Router) {
         this.initWithUser = this.initWithUser.bind(this);
+        this.initWithEvents = this.initWithEvents.bind(this);
+        this.removeEvent = this.removeEvent.bind(this);
     }
 
     ngOnInit() {
@@ -46,10 +50,30 @@ export class EventsComponent implements OnInit {
 
     initWithEvents() {
         this.eventService.getEventsList().then((snapshot: any) => {
-            this.eventsKeys = Object.keys(snapshot.val());
+            this.eventsKeys = Object.keys(snapshot.val() || {});
             this.events = snapshot.val();
         }).catch((error: any) => {
             console.log(error)
+        })
+    }
+
+    removeEvent(key: any) {
+        this.showSpinner = true;
+        this.eventService.deleteEvent(key).then((response: any) => {
+            this.initWithEvents();
+            this.showSpinner = false;
+            this.toast.create({
+                show: true,
+                message: 'Torneo eliminado!',
+                severity: 'alert'
+            })
+        }).catch((error: any) => {
+            this.showSpinner = false;
+            this.toast.create({
+                show: true,
+                message: error.message,
+                severity: 'error'
+            })
         })
     }
 }

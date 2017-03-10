@@ -1,7 +1,8 @@
 /**
  * Created by juanleyba on 3/7/17.
  */
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, OnDestroy} from '@angular/core';
+import {Subscription} from 'rxjs';
 import {ToastService} from '../services/toast.service'
 
 interface Options {
@@ -14,12 +15,17 @@ interface Options {
     selector: 'toast',
     templateUrl: '../templates/toast.component.html',
 })
-export class ToastComponent {
+export class ToastComponent implements OnInit, OnDestroy {
     message: string;
     classes: any = [];
+    subscription: Subscription;
 
     constructor(private toastService: ToastService) {
-        this.toastService.showToast.subscribe((options: Options) => {
+
+    }
+
+    ngOnInit() {
+        this.subscription = this.toastService.showToast.subscribe((options: Options) => {
             this.message = options.message;
             if (options.show) {
                 setTimeout(() => {
@@ -31,4 +37,9 @@ export class ToastComponent {
             this.classes.push(options.severity.toString());
         })
     }
+
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
+    }
+
 }

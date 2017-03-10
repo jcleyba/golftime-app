@@ -9,7 +9,8 @@ import '../../../public/css/styles.css';
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../services/auth.service";
-import {RouterModule, Router} from '@angular/router';
+import {ToastService} from "../services/toast.service";
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -20,9 +21,6 @@ export class SignUpComponent {
     myForm: FormGroup;
     selectedClass = 0;
     showSpinner: boolean = false;
-    showToast: boolean = false;
-    toastMessage: string;
-    toastType: string;
     classes = [
         {value: 0, display: 'A'},
         {value: 1, display: 'B'},
@@ -32,6 +30,7 @@ export class SignUpComponent {
 
     constructor(private fb: FormBuilder,
                 private authService: AuthService,
+                private toast: ToastService,
                 private router: Router) {
         this.myForm = this.fb.group({
             email: ['', Validators.required],
@@ -39,25 +38,47 @@ export class SignUpComponent {
             phone: ['', Validators.required],
             class: [''],
             password: ['', Validators.required],
+            confirm: ['', Validators.required],
         });
     }
 
+    passwordMatch(password: string, confirm: string) {
+        return password === confirm;
+    }
 
     onSignup() {
-        this.showSpinner = true;
-        this.authService.signupUser(this.myForm.value).then((user: any) => {
-            this.authService.registerUser(user.uid, this.myForm.value).then((snapshot: any) => {
-                this.showSpinner = false;
-                this.router.navigate(["torneos"]);
+        var userData = this.myForm.value;
+        if (this.passwordMatch(userData.password, userData.confirm)) {
+            this.showSpinner = true;
+            this.authService.signupUser(userData).then((user: any) => {
+                this.authService.registerUser(user.uid, this.myForm.value).then((snapshot: any) => {
+                    this.showSpinner = false;
+                    this.router.navigate(["torneos"]);
+                }).catch((error: any) => {
+                    console.log(error);
+                    this.showSpinner = false;
+                    this.toast.create({
+                        show: true,
+                        message: error.message,
+                        severity: 'error'
+                    })
+                })
             }).catch((error: any) => {
-                console.log(error);
                 this.showSpinner = false;
-                alert(error.message)
+                console.log(error);
+                this.toast.create({
+                    show: true,
+                    message: error.message,
+                    severity: 'error'
+                })
             })
-        }).catch((error: any) => {
-            this.showSpinner = false;
-            console.log(error);
-            alert(error.message);
-        })
+        }
+        else {
+            this.toast.create({
+                show: true,
+                message: "Sus contraseñas no coinciden, por favor vuelva a intentar",
+                severity: 'warning'
+            })
+        }
     }
 }
