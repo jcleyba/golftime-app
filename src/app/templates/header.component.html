@@ -8,5 +8,6 @@
     </span>
     <span *ngIf="isLoggedIn">
         {{greeting}} {{user.name}}  <button (click)="logout()">Salir</button>
+        <a [routerLink]="['/register']" [queryParams]="{'id':user.id}">Mi cuenta</a>
     </span>
 </header>

@@ -6,11 +6,11 @@
  */
 import '../../../public/css/styles.css';
 
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {AuthService} from "../services/auth.service";
+import {AuthService, User} from "../services/auth.service";
 import {ToastService} from "../services/toast.service";
-import {Router} from '@angular/router';
+import {Router, ActivatedRoute, Params} from '@angular/router';
 
 
 @Component({
@@ -20,6 +20,8 @@ import {Router} from '@angular/router';
 export class SignUpComponent {
     myForm: FormGroup;
     selectedClass = 0;
+    userId: string;
+    user: Object = new Object();
     showSpinner: boolean = false;
     classes = [
         {value: 0, display: 'A'},
@@ -30,6 +32,7 @@ export class SignUpComponent {
 
     constructor(private fb: FormBuilder,
                 private authService: AuthService,
+                private route: ActivatedRoute,
                 private toast: ToastService,
                 private router: Router) {
         this.myForm = this.fb.group({
@@ -40,6 +43,25 @@ export class SignUpComponent {
             password: ['', Validators.required],
             confirm: ['', Validators.required],
         });
+        this.route.queryParams.subscribe((params: Params) => {
+            var id = params['id'];
+            if (id) {
+                this.userId = id;
+                this.preloadForm(id);
+            }
+        });
+    }
+
+    preloadForm(id: any) {
+        this.showSpinner = true;
+        this.authService.getUserById(id).then((user: any) => {
+            this.user = user.val();
+            this.selectedClass = this.user['class'];
+            this.showSpinner = false;
+        }).catch((error: any) => {
+            console.log(error);
+            this.showSpinner = false;
+        })
     }
 
     passwordMatch(password: string, confirm: string) {
@@ -50,28 +72,17 @@ export class SignUpComponent {
         var userData = this.myForm.value;
         if (this.passwordMatch(userData.password, userData.confirm)) {
             this.showSpinner = true;
-            this.authService.signupUser(userData).then((user: any) => {
-                this.authService.registerUser(user.uid, this.myForm.value).then((snapshot: any) => {
-                    this.showSpinner = false;
-                    this.router.navigate(["torneos"]);
+            if (this.user['id']) {
+                this.authService.updateCurrentUserEmail(userData.email).then((data: any) => {
+                    this.updateUser(userData);
                 }).catch((error: any) => {
                     console.log(error);
                     this.showSpinner = false;
-                    this.toast.create({
-                        show: true,
-                        message: error.message,
-                        severity: 'error'
-                    })
-                })
-            }).catch((error: any) => {
-                this.showSpinner = false;
-                console.log(error);
-                this.toast.create({
-                    show: true,
-                    message: error.message,
-                    severity: 'error'
-                })
-            })
+                });
+            }
+            else {
+                this.sendNewUser(userData);
+            }
         }
         else {
             this.toast.create({
@@ -80,5 +91,39 @@ export class SignUpComponent {
                 severity: 'warning'
             })
         }
+    }
+
+    updateUser(userData: any) {
+        this.authService.updateCurrentUser(userData).then((response: any) => {
+            this.showSpinner = false;
+            this.router.navigate(["torneos"]);
+        }).catch((error: any) => {
+            console.log(error);
+            this.showSpinner = false;
+        })
+    }
+
+    sendNewUser(userData: any) {
+        this.authService.signupUser(userData).then((user: any) => {
+            this.authService.registerUser(user.uid, this.myForm.value).then((snapshot: any) => {
+                this.router.navigate(["torneos"]);
+            }).catch((error: any) => {
+                console.log(error);
+                this.showSpinner = false;
+                this.toast.create({
+                    show: true,
+                    message: error.message,
+                    severity: 'error'
+                })
+            })
+        }).catch((error: any) => {
+            this.showSpinner = false;
+            console.log(error);
+            this.toast.create({
+                show: true,
+                message: error.message,
+                severity: 'error'
+            })
+        })
     }
 }

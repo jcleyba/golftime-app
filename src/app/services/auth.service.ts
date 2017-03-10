@@ -46,6 +46,10 @@ export class AuthService {
         return firebase.auth().signOut();
     }
 
+    getUserById(id: any) {
+        return firebase.database().ref("/users/" + id).once('value');
+    }
+
     getUser() {
         var user = firebase.auth().currentUser;
         if (user) {
@@ -54,6 +58,22 @@ export class AuthService {
         else {
             return firebase.database().ref("/users/" + "null").once('value');
         }
+    }
+
+    updateCurrentUser(userData: any) {
+        var key = firebase.auth().currentUser.uid;
+        return firebase.database().ref("/users/" + key).set({
+            id: key,
+            email: userData.email,
+            phone: userData.phone,
+            name: userData.name,
+            class: Number(userData.class),
+            role: 2
+        })
+    }
+
+    updateCurrentUserEmail(email: any) {
+        return firebase.auth().currentUser.updateEmail(email);
     }
 
     isAuthenticated() {
