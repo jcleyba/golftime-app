@@ -19,13 +19,12 @@
         <tbody>
         <tr *ngFor="let event of rows; let i = index">
             <td>{{event.time | date:'HH:mm'}}</td>
-            <td
-                    [ngClass]="{'has-content':content.id != null}"
-                    *ngFor="let content of event.content; let j = index"
-                    (click)="addBooking(event.content[j])">
-                {{content.user.name}} <span
-                    *ngIf="(user.id === event.content[j].user.id) || user.role === 1 && content.id != null"
-                    (click)="removeBooking(content.id)">X</span>
+            <td [ngClass]="{'has-content':content.id != null}"
+                *ngFor="let content of event.content; let j = index"
+                (click)="addBooking(event.content[j])">
+                {{content.user.name}}
+                <span *ngIf="(user.id === event.content[j].user.id) || user.role === 1 && content.id != null"
+                      (click)="removeBooking(content.id)">X</span>
             </td>
         </tr>
         </tbody>

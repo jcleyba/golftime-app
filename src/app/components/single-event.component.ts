@@ -20,7 +20,6 @@ export class SingleEventComponent implements OnInit {
     event: any = new Object();
     heading: any;
     rows: any = [];
-    alreadyBooked: boolean = false;
     showUsersSelect: boolean = false;
     usersList: any;
     usersIds: any;
@@ -54,9 +53,7 @@ export class SingleEventComponent implements OnInit {
                 if (this.user.role === 1) {
                     this.getUsers();
                 }
-                else {
-                    this.selectedUser = this.user;
-                }
+                this.selectedUser = this.user;
             }).catch((error: any) => {
                 console.log(error);
                 this.showSpinner = false;
@@ -132,22 +129,43 @@ export class SingleEventComponent implements OnInit {
                 obj.id = id;
                 obj.user = this.event.bookings[id].user;
                 obj.time = time;
-                this.alreadyBooked = obj.user.id === this.user.id;
                 arr.push(obj);
             }
         }
         return arr;
     }
 
-    addBooking(e: any) {
-        var timeString = new Date(e.time);
-        var formatMinute = timeString.getMinutes().toString().length == 1 ? '0' + timeString.getMinutes() : timeString.getMinutes();
+    findUserInBookings(user: User) {
+        var i = 0;
+        var found = false;
+        var ret = false;
+        var keys = Object.keys(this.event.bookings || {});
+        while (!found && i < keys.length) {
+            var key = keys[i];
+            if (user.id === this.event.bookings[key].user.id) {
+                ret = true;
+            }
+            i++;
+        }
+        return ret;
+    }
 
-        if (!e.id && !this.alreadyBooked && this.hasPermissions(this.user, this.event)) {
+    addBooking(event: any) {
+        var timeString = new Date(event.time);
+        var formatMinute = timeString.getMinutes().toString().length == 1 ? '0' + timeString.getMinutes() : timeString.getMinutes();
+        var userBooked = this.findUserInBookings(this.selectedUser);
+        if (!event.id && this.hasPermissions(this.user, this.event) && !userBooked) {
             var confirm: any = window.confirm('¿Usted desea inscribirse a las ' + timeString.getHours() + ":" + formatMinute);
             if (confirm) {
-                this.sendBooking(this.id, this.selectedUser, e.time);
+                this.sendBooking(this.id, this.selectedUser, event.time);
             }
+        }
+        else if (!event.id && userBooked) {
+            this.toast.create({
+                show: true,
+                message: 'El usuario ya está inscripto',
+                severity: 'error'
+            })
         }
     }
 
@@ -173,7 +191,6 @@ export class SingleEventComponent implements OnInit {
         if (window.confirm('¿Está seguro de eliminar su inscripción?')) {
             this.eventService.deleteBooking(this.id, id).then((response: any) => {
                 this.initWithEvent(this.id);
-                this.alreadyBooked = false;
                 setTimeout(() => {
                     this.toast.create({
                         show: true,
