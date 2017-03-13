@@ -7,6 +7,7 @@ import {Observable} from "rxjs/Rx";
 import {AuthService} from "../services/auth.service";
 import {Router} from '@angular/router';
 
+declare var firebase: any;
 
 @Injectable()
 
@@ -16,22 +17,25 @@ export class AuthGuard implements CanActivate {
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean>|Promise<boolean>|boolean {
-        return this.authService.getUser().then((snapshot: any) => {
-            if (snapshot) {
-                if (snapshot.val().role === 1) {
+        var currentUser = firebase.auth().currentUser;
+        if (currentUser) {
+            return this.authService.getUserById(currentUser.uid).then((user: any) => {
+                if (user.val()['role'] === 1) {
                     return true;
                 }
                 else {
-                    this.router.navigate(['not-authorized'])
+                    this.router.navigate(['/not-authorized']);
+                    return false;
                 }
-            }
-            console.log('not authenticated');
-            this.router.navigate(['not-authorized']);
+            }).catch((error: any) => {
+                console.log(error);
+                this.router.navigate(['/not-authorized']);
+                return false;
+            })
+        }
+        else {
+            this.router.navigate(['/not-authorized']);
             return false;
-        }).catch((error: any) => {
-            console.log(error);
-            this.router.navigate(['not-authorized']);
-            return false;
-        });
+        }
     }
 }
