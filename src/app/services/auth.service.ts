@@ -84,4 +84,8 @@ export class AuthService {
             return false;
         }
     }
+
+    recoverPassword(email: any) {
+        return firebase.auth().sendPasswordResetEmail(email)
+    }
 }

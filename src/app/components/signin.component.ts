@@ -16,7 +16,6 @@ import {RouterModule, Router} from '@angular/router';
 export class SignInComponent {
     myForm: FormGroup;
     showSpinner: boolean = false;
-    toastMessage: string;
 
     constructor(private fb: FormBuilder,
                 private authService: AuthService,

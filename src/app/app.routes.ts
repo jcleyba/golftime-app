@@ -9,6 +9,7 @@ import {SignUpComponent}from "./components/signup.component"
 import {CreateEventComponent}from "./components/create-event.component"
 import {EventsComponent}from "./components/events.component"
 import {SingleEventComponent}from "./components/single-event.component"
+import {ForgotPasswordComponent}from "./components/forgot-password.component"
 import {RestrictedAccessComponent}from "./components/restricted-access.component"
 
 @NgModule({
@@ -20,6 +21,7 @@ import {RestrictedAccessComponent}from "./components/restricted-access.component
             {path: 'torneos', component: EventsComponent},
             {path: 'torneo/:id', component: SingleEventComponent},
             {path: 'not-authorized', component: RestrictedAccessComponent},
+            {path: 'recuperar-contrasena', component: ForgotPasswordComponent},
             {path: 'crear-torneo', component: CreateEventComponent, canActivate: [AuthGuard]},
         ])
     ],
