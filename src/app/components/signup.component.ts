@@ -4,7 +4,6 @@
 /**
  * Created by juanleyba on 3/1/17.
  */
-import '../../../public/css/styles.css';
 
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";

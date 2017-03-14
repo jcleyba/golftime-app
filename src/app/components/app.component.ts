@@ -1,15 +1,14 @@
 /**
  * Created by juanleyba on 3/1/17.
  */
-import {Component, OnInit} from '@angular/core';
-import {RouterModule} from '@angular/router';
+import {Component} from '@angular/core';
 
-import '../../../public/css/styles.css';
-
+const styles = require('../../../public/css/style.less');
 
 @Component({
     selector: 'my-app',
     templateUrl: '../templates/app.component.html',
+    styles: [styles.toString()]
 })
 export class AppComponent {
 }
