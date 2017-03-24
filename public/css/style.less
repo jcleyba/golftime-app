@@ -1,7 +1,84 @@
 @import 'spinner';
 @import 'toast';
+@import 'fonts';
+@import 'variables';
+@import 'base';
 
-body {
-    margin: 0;
+//HEADER
+header {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1040px;
+    align-items: center;
+    margin: auto;
+    .logo {
+        max-width: 200px;
+    }
 }
 
+//LOGIN
+.login,
+.register,
+.forgot-password,
+.create-event {
+    display: flex;
+    margin: auto;
+    max-width: 320px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    color: @main-green;
+    .container {
+        width: 100%;
+    }
+    .logo {
+        max-width: 200px;
+        margin-bottom: 40px;
+    }
+    .btn {
+        margin-top: 30px;
+    }
+
+}
+
+//SINGLE EVENT
+.single-event .container {
+    padding: 25px;
+    max-width: 1040px;
+    margin: 30px auto;
+    background: white;
+    .event-name {
+        font-size: 40px;
+        font-weight: 300;
+        margin-bottom: 30px;
+    }
+    .event-date {
+        margin-bottom: 20px;
+        font-weight: 600;
+    }
+    .schedule-table {
+        width: 100%;
+        td {
+            padding: 5px 10px;
+            border: solid 1px @main-green;
+            cursor: pointer;
+        }
+        .has-content {
+            background: @main-green;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: default;
+        }
+    }
+    .time-col {
+        text-align: center;
+    }
+    .admin-user-select {
+        padding: 15px;
+        margin: 20px 0;
+        border: solid 1px @main-green;
+    }
+}

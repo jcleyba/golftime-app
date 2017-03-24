@@ -11,7 +11,8 @@ class Event {
     id: string;
     name: string;
     date: any;
-    teeTimesIntervals: any;
+    numberOfPlayers: any;
+    teeTimesInterval: any;
     morningShiftStartHours: any;
     morningShiftStart: any;
     morningShiftEnd: any;
@@ -45,6 +46,12 @@ export class CreateEventComponent implements OnInit {
         this.initWithUser = this.initWithUser.bind(this);
         this.initDropdowns();
         this.event = new Event();
+        this.event.morningShiftStartHours = this.hours[0];
+        this.event.morningShiftStartMinutes = this.minutes[0];
+        this.event.morningShiftEndHours = this.hours[0];
+        this.event.morningShiftEndMinutes = this.minutes[0];
+        this.event.numberOfPlayers = this.numberOfPlayers[0];
+        this.event.teeTimesInterval = this.teeTimesIntervals[0];
         this.route.queryParams.subscribe((params: Params) => {
             var id = params['id'];
             if (id) {

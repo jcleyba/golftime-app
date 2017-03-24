@@ -2,11 +2,11 @@
 <spinner *ngIf="showSpinner"></spinner>
 <header-app [user]="user"></header-app>
 <ul *ngFor="let event of eventsKeys">
-    <li><a [routerLink]="['/torneo', event]">{{events[event].name}}</a>
-        <button (click)="removeEvent(event)" *ngIf="user.role === 1">Borrar Torneo</button>
-        <a [routerLink]="['/crear-torneo']" [queryParams]="{'id':event}"
-           *ngIf="user.role === 1">Editar
-            Torneo</a>
+	<li><a [routerLink]="['/torneo', event]">{{events[event].name}}</a>
+		<button (click)="removeEvent(event)" *ngIf="user.role === 1" class="btn btn-danger">Borrar Torneo</button>
+		<a [routerLink]="['/crear-torneo']" [queryParams]="{'id':event}"
+		   *ngIf="user.role === 1" class="btn btn-secondary">Editar
+			Torneo</a>
 
-    </li>
+	</li>
 </ul>

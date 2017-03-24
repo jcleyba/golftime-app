@@ -11,6 +11,7 @@ import {EventsComponent} from './components/events.component';
 import {SingleEventComponent} from './components/single-event.component';
 import {CreateEventComponent} from './components/create-event.component';
 import {HeaderComponent} from './components/header.component';
+import {LogoComponent} from './components/logo.component';
 import {SpinnerComponent} from './components/spinner.component';
 import {ToastComponent} from './components/toast.component';
 import {RestrictedAccessComponent} from './components/restricted-access.component';
@@ -40,6 +41,7 @@ import {ToastService} from "./services/toast.service";
         CreateEventComponent,
         EventsComponent,
         HeaderComponent,
+        LogoComponent,
         SpinnerComponent,
         RestrictedAccessComponent,
         SingleEventComponent,

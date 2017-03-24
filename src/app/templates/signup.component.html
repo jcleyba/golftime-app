@@ -1,35 +1,39 @@
 <toast></toast>
 <spinner *ngIf="showSpinner"></spinner>
-<header-app [user]="user"></header-app>
-<h3>Mi cuenta</h3>
-<form [formGroup]="myForm" (ngSubmit)="onSignup()">
-    <div class="form-group">
-        <label for="email">E-Mail</label>
-        <input formControlName="email" type="email" id="email" class="form-control" [(ngModel)]="user.email">
-    </div>
-    <div class="input-group">
-        <label for="password">Contraseña</label>
-        <input formControlName="password" type="password" id="password" class="form-control">
-    </div>
-    <div class="input-group">
-        <label for="password">Repita su contraseña</label>
-        <input formControlName="confirm" type="password" id="confirm" class="form-control">
-    </div>
-    <div class="input-group">
-        <label for="name">Nombre Completo</label>
-        <input formControlName="name" type="text" id="name" class="form-control" [(ngModel)]="user.name">
-    </div>
-    <div class="input-group">
-        <label for="phone">Teléfono</label>
-        <input formControlName="phone" type="text" id="phone" class="form-control" [(ngModel)]="user.phone">
-    </div>
-    <div class="input-group">
-        <label for="class">Tipo de socio</label>
-        <select formControlName="class" id="class" [(ngModel)]="selectedClass">
-            <option *ngFor="let class of classes" [value]="class.value">
-                {{class.display}}
-            </option>
-        </select>
-    </div>
-    <button type="submit" [disabled]="!myForm.valid" class="btn btn-primary">Enviar</button>
-</form>
+<header-app [user]="user" *ngIf="userId"></header-app>
+<div class="register">
+	<logo-app *ngIf="!userId"></logo-app>
+	<div class="container">
+		<form [formGroup]="myForm" (ngSubmit)="onSignup()">
+			<div class="form-group">
+				<label for="email">E-Mail</label>
+				<input formControlName="email" type="email" id="email" class="form-control" [(ngModel)]="user.email">
+			</div>
+			<div class="input-group">
+				<label for="password">Contraseña</label>
+				<input formControlName="password" type="password" id="password" class="form-control">
+			</div>
+			<div class="input-group">
+				<label for="password">Repita su contraseña</label>
+				<input formControlName="confirm" type="password" id="confirm" class="form-control">
+			</div>
+			<div class="input-group">
+				<label for="name">Nombre Completo</label>
+				<input formControlName="name" type="text" id="name" class="form-control" [(ngModel)]="user.name">
+			</div>
+			<div class="input-group">
+				<label for="phone">Teléfono</label>
+				<input formControlName="phone" type="text" id="phone" class="form-control" [(ngModel)]="user.phone">
+			</div>
+			<div class="input-group">
+				<label for="class">Tipo de socio</label>
+				<select formControlName="class" id="class" [(ngModel)]="selectedClass">
+					<option *ngFor="let class of classes" [value]="class.value">
+						{{class.display}}
+					</option>
+				</select>
+			</div>
+			<button type="submit" [disabled]="!myForm.valid" class="btn btn-primary block">Enviar</button>
+		</form>
+	</div>
+</div>

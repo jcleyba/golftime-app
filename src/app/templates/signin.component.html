@@ -1,18 +1,21 @@
 <toast></toast>
 <spinner *ngIf="showSpinner"></spinner>
-<h3>Iniciar sesión</h3>
-<div class="container">
-    <form [formGroup]="myForm" (ngSubmit)="onSignin()">
-        <div class="form-group">
-            <label for="email">E-Mail</label>
-            <input formControlName="email" type="email" id="email" class="form-control">
-        </div>
-        <div class="input-group">
-            <label for="password">Password</label>
-            <input formControlName="password" type="password" id="password" class="form-control">
-        </div>
-        <button type="submit" [disabled]="!myForm.valid" class="btn btn-primary">Enviar</button>
-    </form>
+<div class="login">
+	<logo-app></logo-app>
+	<div class="container">
+		<form [formGroup]="myForm" (ngSubmit)="onSignin()">
+			<div class="form-group">
+				<label for="email">E-Mail</label>
+				<input formControlName="email" type="email" id="email" class="form-control">
+			</div>
+			<div class="input-group">
+				<label for="password">Password</label>
+				<input formControlName="password" type="password" id="password" class="form-control">
+			</div>
+			<a routerLink="/recuperar-contrasena" routerLinkActive="active" class="link block right">Olvidé mi
+				contraseña</a>
+			<button type="submit" [disabled]="!myForm.valid" class="btn btn-primary block">Enviar</button>
+		</form>
+	</div>
+	<a routerLink="/register" routerLinkActive="active" class="btn btn-secondary block">Cuenta nueva</a>
 </div>
-<a routerLink="/register" routerLinkActive="active">Registrarse</a>
-<a routerLink="/recuperar-contrasena" routerLinkActive="active">Olvidé mi contraseña</a>

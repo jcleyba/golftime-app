@@ -3,7 +3,7 @@
  */
 import {Component} from '@angular/core';
 
-const styles = require('../../../public/css/style.less');
+const styles = require('!style-loader!css-loader!less-loader!../../../public/css/style.less');
 
 @Component({
     selector: 'my-app',
