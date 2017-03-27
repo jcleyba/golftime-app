@@ -27,7 +27,7 @@
 				<td [ngClass]="{'has-content':content.id != null}"
 					*ngFor="let content of event.content; let j = index"
 					(click)="addBooking(event.content[j])">
-					{{content.user.name}}
+					<span class="user-name">{{content.user.name}}</span>
 					<img src="../../../public/images/close.svg" alt="close"
 						 class="close" *ngIf="(user.id === event.content[j].user.id) || user.role === 1 && content.id !=
 					null"
