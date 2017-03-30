@@ -1,15 +1,19 @@
 <spinner *ngIf="showSpinner"></spinner>
 <header id="header">
+
+	<span>
+        <a [routerLink]="['/torneos']" class="btn btn-primary link">Torneos</a>
+    </span>
+	<span *ngIf="isAdmin">
+        <a [routerLink]="['/crear-torneo']" class="btn btn-secondary link">Nuevo Torneo</a>
+    </span>
 	<logo-app></logo-app>
-	<span>
-        <a [routerLink]="['/torneos']">Torneos</a>
-    </span>
-	<span>
-        <a [routerLink]="['/crear-torneo']" *ngIf="isAdmin" class="btn btn-secondary link">Nuevo Torneo</a>
-    </span>
-	<span *ngIf="isLoggedIn">
-        {{greeting}} {{user.name}}
-		<button (click)="logout()" class="btn btn-primary">Salir</button>
-        <a [routerLink]="['/register']" [queryParams]="{'id':user.id}" class="btn btn-secondary link">Mi cuenta</a>
+	<span *ngIf="isLoggedIn" class="user-account" (click)="showSubMenu = !showSubMenu">
+        {{user.name}}
+		<img src="../../../public/images/ic_account_circle_black_24px.svg" alt="user account">
+		<div class="sub-menu" *ngIf="showSubMenu">
+        	<a [routerLink]="['/register']" [queryParams]="{'id':user.id}" class="">Mi perfil</a>
+			<a (click)="logout()" class="">Salir</a>
+		</div>
     </span>
 </header>

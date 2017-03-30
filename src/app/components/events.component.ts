@@ -50,8 +50,8 @@ export class EventsComponent implements OnInit {
 
     initWithEvents() {
         this.eventService.getEventsList().then((snapshot: any) => {
-            this.eventsKeys = Object.keys(snapshot.val() || {});
             this.events = snapshot.val();
+            this.eventsKeys = Object.keys(snapshot.val() || {});
         }).catch((error: any) => {
             console.log(error)
         })

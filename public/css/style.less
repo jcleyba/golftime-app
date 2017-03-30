@@ -14,6 +14,29 @@ header {
 	.logo {
 		max-width: 200px;
 	}
+	.user-account {
+		display: flex;
+		align-items: center;
+		color: @main-green;
+		position: relative;
+		min-width: 20%;
+		justify-content: flex-end;
+		cursor: pointer;
+		img {
+			margin-left: 10px;
+		}
+		.sub-menu {
+			position: absolute;
+			height: 100px;
+			top: 44px;
+			right: 0;
+			background: white;
+			padding: 20px;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-around;
+		}
+	}
 }
 
 //LOGIN
@@ -42,12 +65,43 @@ header {
 
 }
 
+//EVENTS LIST
+.events-list .container {
+	padding: 25px;
+	max-width: 1040px;
+	margin: 30px auto;
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	.card {
+		min-width: 30%;
+		display: flex;
+		padding: 25px;
+		flex-direction: column;
+		align-items: center;
+		background: rgba(255, 255, 255, 0.8);
+		.title {
+			font-size: 20px;
+		}
+		.golf-icon {
+			width: 48px;
+			margin: 10px;
+		}
+		.date {
+			display: flex;
+			align-items: center;
+			margin: 15px 0;
+		}
+	}
+
+}
+
 //SINGLE EVENT
 .single-event .container {
 	padding: 25px;
 	max-width: 1040px;
 	margin: 30px auto;
-	background: white;
+	background: rgba(255, 255, 255, 0.8);
 	.event-name {
 		font-size: 40px;
 		font-weight: 300;
