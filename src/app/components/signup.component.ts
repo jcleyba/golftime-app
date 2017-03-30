@@ -40,6 +40,7 @@ export class SignUpComponent {
             phone: ['', Validators.required],
             class: [''],
             password: ['', Validators.required],
+            matricula: ['', Validators.required],
             confirm: ['', Validators.required],
         });
         this.route.queryParams.subscribe((params: Params) => {

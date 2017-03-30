@@ -9,6 +9,7 @@ export interface User {
     name: string;
     class: Number;
     phone: string;
+    matricula: string;
     email: string;
     password: string;
     confirmPassword?: string;
@@ -37,6 +38,7 @@ export class AuthService {
             email: user.email,
             phone: user.phone,
             name: user.name,
+            matricula: user.matricula,
             class: Number(user.class),
             role: 2
         })

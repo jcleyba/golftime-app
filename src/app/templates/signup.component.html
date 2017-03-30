@@ -26,6 +26,11 @@
 				<input formControlName="phone" type="text" id="phone" class="form-control" [(ngModel)]="user.phone">
 			</div>
 			<div class="input-group">
+				<label for="matricula">Matrícula</label>
+				<input formControlName="matricula" type="text" id="matricula" class="form-control"
+					   [(ngModel)]="user.matricula">
+			</div>
+			<div class="input-group">
 				<label for="class">Tipo de socio</label>
 				<select formControlName="class" id="class" [(ngModel)]="selectedClass">
 					<option *ngFor="let class of classes" [value]="class.value">

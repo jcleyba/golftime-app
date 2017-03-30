@@ -22,7 +22,6 @@ export class SingleEventComponent implements OnInit {
     rows: any = [];
     showUsersSelect: boolean = false;
     usersList: any;
-    usersIds: any;
     selectedUser: User;
 
     constructor(private authService: AuthService,
@@ -84,8 +83,10 @@ export class SingleEventComponent implements OnInit {
         var self = this;
         this.eventService.getUsers().then((snapshot: any) => {
             self.usersList = snapshot.val();
-            self.usersIds = Object.keys(self.usersList);
-            self.selectedUser = self.usersList[self.usersIds[0]];
+            self.usersList = Object.keys(self.usersList).map((k) => {
+                return self.usersList[k];
+            });
+            self.selectedUser = self.usersList[0];
             this.showUsersSelect = true;
         }).catch((error: any) => {
             console.log(error);
@@ -233,5 +234,18 @@ export class SingleEventComponent implements OnInit {
             }
         }
         return ret;
+    }
+
+    dragUser(user: any) {
+        this.selectedUser = user;
+    }
+
+    allowDrop(e: any) {
+        e.preventDefault();
+    }
+
+    dropUser(e: any, event: any) {
+        this.addBooking(event);
+        e.preventDefault();
     }
 }

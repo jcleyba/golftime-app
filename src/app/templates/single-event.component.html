@@ -7,12 +7,14 @@
 		<p class="event-date">Fecha: {{event.date | date:'dd/MM/yyyy'}}</p>
 		<p class="explain">Haga click en el lugar que desee inscribirse dentro de la grilla.</p>
 		<div *ngIf="showUsersSelect" class="admin-user-select">
-			Seleccione jugador para inscribir:
-			<select name="" id="" [(ngModel)]="selectedUser" class="user-selection">
-				<option [ngValue]="usersList[u]" *ngFor="let u of usersIds">
-					{{usersList[u].name}}
-				</option>
-			</select>
+			<input type="text" class="form-control" placeholder="Buscar jugador" [(ngModel)]="search"/>
+			<div>Arrastre el jugador a la grilla.</div>
+			<ul *ngFor="let user of usersList | searchPipe:'name':search" class="players-list">
+				<li>
+					<span draggable="true" (dragstart)="dragUser(user)">{{user.name}}</span>
+					<span>{{user.matricula}}</span>
+				</li>
+			</ul>
 		</div>
 		<table class="schedule-table">
 			<thead>
@@ -26,7 +28,8 @@
 				<td class="time-col">{{event.time | date:'HH:mm'}}</td>
 				<td [ngClass]="{'has-content':content.id != null}"
 					*ngFor="let content of event.content; let j = index"
-					(click)="addBooking(event.content[j])">
+					(click)="addBooking(event.content[j])" (drop)="dropUser($event,event.content[j])"
+					(dragover)="allowDrop($event)">
 					<span class="user-name">{{content.user.name}}</span>
 					<img src="../../../public/images/close.svg" alt="close"
 						 class="close" *ngIf="(user.id === event.content[j].user.id) || user.role === 1 && content.id !=

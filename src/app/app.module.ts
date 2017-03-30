@@ -16,6 +16,7 @@ import {SpinnerComponent} from './components/spinner.component';
 import {ToastComponent} from './components/toast.component';
 import {RestrictedAccessComponent} from './components/restricted-access.component';
 import {ForgotPasswordComponent} from './components/forgot-password.component';
+import {SearchPipe} from './pipes/search-pipe';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {AppRoutingModule}from './app.routes'
@@ -46,7 +47,8 @@ import {ToastService} from "./services/toast.service";
         RestrictedAccessComponent,
         SingleEventComponent,
         ToastComponent,
-        ForgotPasswordComponent
+        ForgotPasswordComponent,
+        SearchPipe
     ],
     providers: [AuthService, EventsService, ToastService],
     bootstrap: [AppComponent]
