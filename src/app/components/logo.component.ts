@@ -5,10 +5,7 @@ import {Component} from '@angular/core';
 
 @Component({
     selector: 'logo-app',
-    template: `
-        <a [routerLink]="['/']">
-            <img src="../../public/images/logo.svg" alt="golftime-logo" class="logo">
-        </a>`
+    templateUrl: '../templates/logo.component.html'
 })
 export class LogoComponent {
 }

@@ -3,6 +3,7 @@
  */
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {HttpModule} from '@angular/http';
 import {BrowserModule}  from '@angular/platform-browser';
 import {SignInComponent} from './components/signin.component';
 import {SignUpComponent} from './components/signup.component';
@@ -24,6 +25,7 @@ import {AppRoutingModule}from './app.routes'
 import {AuthService} from "./services/auth.service";
 import {EventsService} from "./services/events.service";
 import {ToastService} from "./services/toast.service";
+import {ReCaptchaService} from "./services/recaptcha.service";
 
 
 @NgModule({
@@ -33,7 +35,8 @@ import {ToastService} from "./services/toast.service";
         FormsModule,
         ReactiveFormsModule,
         RouterModule,
-        AppRoutingModule
+        AppRoutingModule,
+        HttpModule
     ],
     declarations: [
         AppComponent,
@@ -50,7 +53,7 @@ import {ToastService} from "./services/toast.service";
         ForgotPasswordComponent,
         SearchPipe
     ],
-    providers: [AuthService, EventsService, ToastService],
+    providers: [AuthService, EventsService, ToastService, ReCaptchaService],
     bootstrap: [AppComponent]
 })
 export class AppModule {
