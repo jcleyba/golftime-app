@@ -12,6 +12,7 @@ app.use(favicon(__dirname + '/webapp/assets/favicon.png'));
 
 app.use('/', express.static(__dirname + '/webapp/'));
 app.get('/*', function (req, res) {
+    res.writeHead(200, {'Content-Type': 'text/html'});
     fs.createReadStream(__dirname + '/webapp/index.html').pipe(res);
 });
 
