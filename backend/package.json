@@ -4,13 +4,17 @@
   "description": "Golf event booking app",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "author": "jcleyba",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
-    "request": "^2.81.0"
+    "moment": "^2.18.1",
+    "nodemailer": "^4.0.1",
+    "request": "^2.81.0",
+    "serve-favicon": "^2.4.2"
   }
 }
