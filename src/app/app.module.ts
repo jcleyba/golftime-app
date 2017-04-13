@@ -25,6 +25,7 @@ import {AppRoutingModule}from './app.routes'
 import {AuthService} from "./services/auth.service";
 import {EventsService} from "./services/events.service";
 import {ToastService} from "./services/toast.service";
+import {EmailService} from "./services/email.service";
 import {ReCaptchaService} from "./services/recaptcha.service";
 
 
@@ -53,7 +54,7 @@ import {ReCaptchaService} from "./services/recaptcha.service";
         ForgotPasswordComponent,
         SearchPipe
     ],
-    providers: [AuthService, EventsService, ToastService, ReCaptchaService],
+    providers: [AuthService, EventsService, ToastService, ReCaptchaService, EmailService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

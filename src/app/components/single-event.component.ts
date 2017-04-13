@@ -6,6 +6,7 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService, User} from "../services/auth.service";
 import {EventsService} from "../services/events.service";
 import {ToastService} from "../services/toast.service";
+import {EmailService} from "../services/email.service";
 import {Router, ActivatedRoute} from '@angular/router';
 
 
@@ -27,6 +28,7 @@ export class SingleEventComponent implements OnInit {
     constructor(private authService: AuthService,
                 private eventService: EventsService,
                 private toast: ToastService,
+                private email: EmailService,
                 private router: Router,
                 private route: ActivatedRoute) {
         this.initWithUser = this.initWithUser.bind(this);
@@ -176,6 +178,7 @@ export class SingleEventComponent implements OnInit {
     sendBooking(id: any, user: any, time: any) {
         this.showSpinner = true;
         this.eventService.saveBooking(id, user, time).then((response: any) => {
+            this.sendEmail(this.event.name, user.email, time);
             this.initWithEvent(id);
             setTimeout(() => {
                 this.toast.create({
@@ -234,6 +237,18 @@ export class SingleEventComponent implements OnInit {
             }
         }
         return ret;
+    }
+
+    sendEmail(title: any, email: any, time: any) {
+        let json = {
+            title: title,
+            email: email,
+            time: time
+        };
+        this.email.sendEventTimeEmail(json).then((resp: any) => {
+        }).catch((error: any) => {
+            console.log(error)
+        })
     }
 
     dragUser(user: any) {

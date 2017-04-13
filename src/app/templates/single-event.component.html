@@ -9,10 +9,10 @@
 		<div *ngIf="showUsersSelect" class="admin-user-select">
 			<input type="text" class="form-control" placeholder="Buscar jugador" [(ngModel)]="search"/>
 			<div>Arrastre el jugador a la grilla.</div>
-			<ul *ngFor="let user of usersList | searchPipe:'name':search" class="players-list">
-				<li>
+			<ul>
+				<li *ngFor="let user of usersList | searchPipe:'name':search" class="players-list">
 					<span draggable="true" (dragstart)="dragUser(user)">{{user.name}}</span>
-					<span>{{user.matricula}}</span>
+					<span> - {{user.matricula}}</span>
 				</li>
 			</ul>
 		</div>
