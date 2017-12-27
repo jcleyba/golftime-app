@@ -1,0 +1,21 @@
+<toast></toast>
+<spinner *ngIf="showSpinner"></spinner>
+<header-app [user]="user"></header-app>
+<div class="events-list">
+	<div class="container">
+		<div class="card" *ngFor="let event of eventsKeys">
+			<img src="../../../public/images/ic_golf_course_black_24px.svg" alt="golf icon" class="golf-icon">
+			<a [routerLink]="['/torneo', event]" class="title">{{events[event].name}}</a>
+			<div class="date">
+				<img src="../../../public/images/ic_date_range_black_24px.svg" alt="golf icon" class="calendar-icon">
+				<span>{{events[event].date | date}}</span>
+			</div>
+			<br>
+			<button (click)="removeEvent(event)" *ngIf="user.role === 1" class="btn btn-danger">Borrar Torneo</button>
+			<br>
+			<a [routerLink]="['/crear-torneo']" [queryParams]="{'id':event}"
+			   *ngIf="user.role === 1" class="btn btn-secondary">Editar
+				Torneo</a>
+		</div>
+	</div>
+</div>

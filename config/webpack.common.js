@@ -14,7 +14,7 @@ module.exports = {
     },
 
     resolve: {
-        extensions: ['.ts', '.js']
+        extensions: ['.ts', '.js', '.json', '.less', '.css', '.html']
     },
 
     module: {
@@ -34,7 +34,13 @@ module.exports = {
             {
                 test: /\.css$/,
                 exclude: helpers.root('src', 'app'),
-                loader: ExtractTextPlugin.extract({ fallbackLoader: 'style-loader', loader: 'css-loader?sourceMap' })
+                loader: ExtractTextPlugin.extract({fallbackLoader: 'style-loader', loader: 'css-loader?sourceMap'})
+            },
+            {
+                test: /\.less$/,
+                loader: ExtractTextPlugin.extract({
+                    fallbackLoader: "style-loader", loader: 'raw-loader!less-loader'
+                })
             },
             {
                 test: /\.css$/,

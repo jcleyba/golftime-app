@@ -1,0 +1,43 @@
+<toast></toast>
+<spinner *ngIf="showSpinner"></spinner>
+<header-app [user]="user"></header-app>
+<div class="single-event">
+	<div class="container">
+		<h2 class="event-name">{{event.name}}</h2>
+		<p class="event-date">Fecha: {{event.date | date:'dd/MM/yyyy'}}</p>
+		<p class="explain">Haga click en el lugar que desee inscribirse dentro de la grilla.</p>
+		<div *ngIf="showUsersSelect" class="admin-user-select">
+			<input type="text" class="form-control" placeholder="Buscar jugador" [(ngModel)]="search"/>
+			<div>Arrastre el jugador a la grilla.</div>
+			<ul>
+				<li *ngFor="let user of usersList | searchPipe:'name':search" class="players-list">
+					<span draggable="true" (dragstart)="dragUser(user)">{{user.name}}</span>
+					<span> - {{user.matricula}}</span>
+				</li>
+			</ul>
+		</div>
+		<table class="schedule-table">
+			<thead>
+			<th>Horario</th>
+			<th *ngFor="let index of heading;">
+				Jugador {{index}}
+			</th>
+			</thead>
+			<tbody>
+			<tr *ngFor="let event of rows; let i = index">
+				<td class="time-col">{{event.time | date:'HH:mm'}}</td>
+				<td [ngClass]="{'has-content':content.id != null}"
+					*ngFor="let content of event.content; let j = index"
+					(click)="addBooking(event.content[j])" (drop)="dropUser($event,event.content[j])"
+					(dragover)="allowDrop($event)">
+					<span class="user-name">{{content.user.name}}</span>
+					<img src="../../../public/images/close.svg" alt="close"
+						 class="close" *ngIf="(user.id === event.content[j].user.id) || user.role === 1 && content.id !=
+					null"
+						 (click)="removeBooking(content.id)">
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
